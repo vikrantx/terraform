@@ -1,0 +1,51 @@
+#!/bin/sh
+#node js 14
+sudo apt update  # To get the latest package lists
+curl -sL https://deb.nodesource.com/setup_14.x | sudo bash 
+sudo apt -y install nodejs
+
+#unzip
+sudo apt-get install unzip -y
+
+#pm2 package
+sudo npm install pm2@latest -g -y
+
+#copy app.zip file from storage
+cd /
+sudo mkdir "weight-tracker-app"
+cd "weight-tracker-app"
+
+sudo cp /home/azureuser/src.zip /weight-tracker-app
+
+#unzip
+sudo unzip src.zip
+
+#Edit .env file
+sudo rm .env
+sudo su
+sudo echo COOKIE_ENCRYPT_PWD=superAwesomePasswordStringThatIsAtLeast32CharactersLong! >> .env
+sudo echo OKTA_ORG_URL=https://dev-91289822.okta.com >> .env
+sudo echo HOST_URL=http://20.232.119.179:8080 >> .env
+sudo echo OKTA_CLIENT_ID=0oa59m58ttDIS3oDb5d7 >> .env
+sudo echo OKTA_CLIENT_SECRET=CbFuUB44qPZ1dWL1xdM0Isu3j8QV5O_qTqc3cXXz >> .env
+sudo echo NODE_ENV=production >> .env
+sudo echo PORT=8080 >> .env
+sudo printf "%s%s\n" "Host=" "$(hostname -I)" >> .env
+sudo echo PGHOST=10.0.0.4 >> .env
+sudo echo PGUSERNAME=postgres >> .env
+sudo echo PGDATABASE=weight-tracker-db >> .env
+sudo echo PGPASSWORD=postTHEgres!@# >> .env
+sudo echo PGPORT=5432 >> .env
+
+#install app dependencies
+npm install --silent
+
+#inti db
+npm run initdb
+
+#pm2
+sudo pm2 startup
+sudo pm2 start src/index.js
+sudo pm2 save
+
+https://bootcampappstorage.blob.core.windows.net/newcontainer/src.zip?sp=r&st=2022-06-18T03:55:15Z&se=2022-06-22T11:55:15Z&sv=2021-06-08&sr=b&sig=tx5KgdcHU78HmAnAmh6Jp7RPN4ZzubWNoYc5PlLYkOo%3D

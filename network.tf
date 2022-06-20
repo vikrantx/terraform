@@ -84,7 +84,7 @@ resource "azurerm_network_security_group" "tf-public-nsg" {
     access                     = "Allow"
     description                = "AllowSSH"
     destination_address_prefix = "*"
-    source_address_prefixes    = ["103.94.57.190"]
+    source_address_prefixes    = ["103.94.57.190","14.141.60.58","182.72.58.210"]
     direction                  = "Inbound"
     name                       = "AllowSSHInBound"
     priority                   = 110

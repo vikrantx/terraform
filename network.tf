@@ -70,6 +70,8 @@ resource "azurerm_public_ip" "tf-vmss" {
   location            = azurerm_resource_group.tf.location
   resource_group_name = azurerm_resource_group.tf.name
   allocation_method   = "Static"
+  domain_name_label   = azurerm_resource_group.tf.name
+  
 }
 
 #create public network security group and rules
@@ -82,7 +84,7 @@ resource "azurerm_network_security_group" "tf-public-nsg" {
     access                     = "Allow"
     description                = "AllowSSH"
     destination_address_prefix = "*"
-    source_address_prefixes      = ["103.94.57.190"]
+    source_address_prefixes    = ["103.94.57.190"]
     direction                  = "Inbound"
     name                       = "AllowSSHInBound"
     priority                   = 110
